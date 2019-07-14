@@ -1,0 +1,6 @@
+.vs/
+x64/
+Release/
+Debug/
+PointInPolygonBenchmark/a.out
+*.vcxproj.user
