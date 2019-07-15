@@ -45,9 +45,11 @@ bool isPointInPolygon(const std::vector<Vector2>& polygon, Vector2 point) {
         }
 
         // Compute imaginary cross product
-        Vector2 a = point - p0;
-        Vector2 b = p1 - p0;
-        float z = a.x * b.y - a.y * b.x;
+        const Vector2 a = point - p0;
+        const Vector2 b = p1 - p0;
+        // Instead of swapping points use multiplication constant
+        const int multiplier = p0.y > p1.y ? -1 : 1;
+        const float z = (a.x * b.y - a.y * b.x) * multiplier;
 
         // RH system -> positive Z = line is to the left of point
         if (z > 0)
@@ -173,11 +175,13 @@ void runBasicTests() {
     result &= checkOut(polygon, Vector2(-1.0f, 0.6f));
     result &= checkOut(polygon, Vector2(0.0f, 2.0f));
     result &= checkOut(polygon, Vector2(1.1f, 0.0f));
+    result &= checkOut(polygon, Vector2(0.5f, 0.2f));
 
     // On edge
     result &= checkIn(polygon, Vector2(0.0f, 0.5f));
     result &= checkIn(polygon, Vector2(1.0f, 0.5f));
-    result &= checkIn(polygon, Vector2(0.5f, 0.0f));
+    result &= checkIn(polygon, Vector2(0.2f, 0.2f));
+    result &= checkIn(polygon, Vector2(0.8f, 0.2f));
     result &= checkIn(polygon, Vector2(0.5f, 1.0f));
 
     // In vertex
